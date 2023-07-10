@@ -1,5 +1,6 @@
 package com.example.shop.controller;
 
+import com.example.shop.bean.ProductBean;
 import com.example.shop.mapper.CategoryMapper;
 import com.example.shop.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/product")
@@ -37,8 +39,10 @@ public class ProductController {
         return "/product/add";
     }
     @PostMapping("/add")
-    public String add(){
+    public String add(ProductBean bean){
         System.out.println("1表单");
-        return null;
+        bean.ctime=new Date();
+        productMapper.insert(bean);
+        return "redirect:/product/list";
     }
 }
