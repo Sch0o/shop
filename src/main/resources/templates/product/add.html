@@ -36,10 +36,14 @@
 <body>
 <ul class="breadcrumb" style="margin:0;">
   <li><a href="#">商品管理</a></li>
+  <#if bean??>
   <li>添加商品</li>
+  <#else>
+  <li>添加商品</li>
+  </#if>
 </ul>
 <form action="" method="post" class="form-horizontal">
-  <input name="id" value="${(bean.id)!}"/>
+  <input type="hidden" name="id" value="${(bean.id)!}"/>
   <h5 class="page-header alert-info" style="padding:10px;margin:0 0 10px 0;">基本信息</h5>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">商品名称</label>
