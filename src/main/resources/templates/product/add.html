@@ -39,41 +39,41 @@
   <li>添加商品</li>
 </ul>
 <form action="" method="post" class="form-horizontal">
-  <input name="id" value=""/>
+  <input name="id" value="${(bean.id)!}"/>
   <h5 class="page-header alert-info" style="padding:10px;margin:0 0 10px 0;">基本信息</h5>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">商品名称</label>
     <div class="col-sm-6">
-      <input type="text" name="product" class="form-control input-sm" value=""/>
+      <input type="text" name="product" class="form-control input-sm" value="${(bean.product)!}"/>
     </div>
   </div>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">单价</label>
     <div class="col-sm-6">
-      <input type="number" name="price" class="form-control input-sm" value=""/>
+      <input type="number" name="price" class="form-control input-sm" value="${(bean.price)!}"/>
     </div>
   </div>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">图片</label>
     <div class="col-sm-6">
-      <input type=hidden name="logo" class="form-control input-sm" value=""/>
+      <input type="hidden" name="logo" class="form-control input-sm" value="${(bean.logo)!}"/>
       <input id="upload" type="button" class="btn btn-success" value="上传"/>
-      <img src="" style="display:block,maxwidth:500px"/>
+      <img src="${(bean.logo)!}" style="display: block; max-width: 500px"/>
     </div>
   </div>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">是否热卖</label>
     <div class="col-sm-6">
       <select name="hot" class="form-control input-sm">
-        <option>热卖</option>
-        <option>非热卖</option>
+        <option <#if (bean.hot)??&&(bean.hot)=='热卖'>selected</#if> >热卖</option>
+      <option <#if (bean.hot)??&&(bean.hot)=='非热卖'>selected</#if> >非热卖</option>
       </select>
     </div>
   </div>
   <div class="row col-sm-9 form-group">
     <label class="col-sm-3 control-label">库存</label>
     <div class="col-sm-6">
-      <input type="number" name="num" class="form-control input-sm" value=""/>
+      <input type="number" name="num" class="form-control input-sm" value="${(bean.num)!}"/>
     </div>
   </div>
   <div class="row col-sm-9 form-group">
@@ -88,7 +88,9 @@
     <div class="col-sm-6">
       <select name="cid" class="form-control input-sm">
         <#list cateList as cate>
-        <option value="${cate.id}">${cate.category}</option>
+        <option value="${cate.id}"
+        <#if (bean.cid)??&&(bean.cid)==cate.id>selected</#if>
+        >${cate.category}</option>
       </#list>
       </select>
     </div>

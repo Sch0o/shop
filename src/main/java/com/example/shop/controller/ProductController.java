@@ -3,6 +3,7 @@ package com.example.shop.controller;
 import com.example.shop.bean.ProductBean;
 import com.example.shop.mapper.CategoryMapper;
 import com.example.shop.mapper.ProductMapper;
+import com.example.shop.util.NotNullUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController extends BaseController{
     @Autowired
     ProductMapper productMapper;
     @Autowired
@@ -34,15 +36,21 @@ public class ProductController {
     }
     @GetMapping("/add")
     public String add(Integer id,HttpServletRequest req){
-        req.setAttribute("cateList",categoryMapper);
+        req.setAttribute("cateList",categoryMapper.selectList(null));
         req.setAttribute("bean",id==null?null:productMapper.selectById(id));
         return "/product/add";
     }
     @PostMapping("/add")
-    public String add(ProductBean bean){
+    public String add(ProductBean bean, HttpServletResponse resp){
+        if(NotNullUtil.isBlank(bean)){
+            return jsAlert("请完善信息",resp);
+        }
         System.out.println("1表单");
-        bean.ctime=new Date();
-        productMapper.insert(bean);
+        if(bean.id==null){
+            bean.ctime=new Date();
+            productMapper.insert(bean);
+        }else
+            productMapper.updateById(bean);
         return "redirect:/product/list";
     }
 }
